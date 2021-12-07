@@ -1,0 +1,57 @@
+let express = require("express");
+let app = express();
+var cors = require('cors');
+let bodyparser=require("body-parser");
+const { request, response } = require("express");
+app.use(bodyparser.json());
+app.use(cors());
+const userArray=
+[
+{
+  userName:"su"  ,
+  password:"1234"
+},
+{
+  userName:"sub"  ,
+  password:"1234"
+},
+{
+  userName:"subh"  ,
+  password:"1234"
+},
+{
+  userName:"subhi"  ,
+  password:"1234"
+}
+];
+
+app.get('/',(request,response)=>{
+    
+    return response.send(userArray);
+})
+
+app.post('/addUser',(request,response)=>{
+    const user=request.body;
+    userArray.push(user);
+    console.log(user);
+    return response.send(userArray);
+})
+app.put('/updateUser',(request,response)=>{
+    const user=request.body;
+    console.log(request.body);
+    const newArray = userArray.filter(x=>
+        x.userName === user.userName
+       );
+    newArray[0].userName=user.userName;
+    newArray[0].password=user.password;
+   
+    return response.send(userArray);
+})
+app.delete('/deleteuser',(request,response)=>{
+        const user=request.body;   
+        const newarr =  userArray.filter( x=> x.userName === user.userName) ;         
+         return response.send(userArray);      
+
+})
+
+app.listen(3000);
